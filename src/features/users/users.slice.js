@@ -32,23 +32,26 @@ export const UserSlice = createSlice({
         state.items = state.items.filter(user => user.id != action.payload)
       },
       personSwipeUp:function(state, action){
-        const personId = action.payload
-        console.log(personId)
-          if(personId-1 < state.items.length-1){
-            const person = state.items[personId-1];
-            if(personId-1 !=0){
-              state.items[personId-1] = state.items[personId-2]
-              state.items[personId-2] = person
+        const {items} = state
+
+            const personIndex = state.items.findIndex(user => user.id == action.payload)
+
+            if(personIndex != 0) {
+                let temp = items[personIndex]
+                items[personIndex] = items[personIndex - 1]
+                items[personIndex - 1] = temp
             }
-          }
       },
       personSwipeDown: function(state, action){   
-          const personId = action.payload
-          if(personId-1 < state.items.length-1){
-            const person = state.items[personId-1];
-            state.items[personId-1] = state.items[personId]
-            state.items[personId] = person
-          }
+        const {items} = state
+
+        const personIndex = state.items.findIndex(user => user.id == action.payload)
+
+        if(personIndex != items.length - 1) {
+            let temp = items[personIndex]
+            items[personIndex] = items[personIndex + 1]
+            items[personIndex + 1] = temp
+        }
       }
       
     }
